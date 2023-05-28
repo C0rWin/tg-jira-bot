@@ -49,6 +49,9 @@ func (b *Bot) Negotiate(ctx context.Context) {
 
 			msg := tgbotapi.NewMessage(chatID, "")
 
+			var issues service.Issues
+			var err error
+
 			switch text {
 			case "/start":
 				msg.Text = "Hello, I'm Jira Bot. You can type /recent or /all to get list of recent or all open tasks"
@@ -63,32 +66,27 @@ func (b *Bot) Negotiate(ctx context.Context) {
 					panic(err)
 				}
 			case "/recent":
-				recentTasks, err := b.jira.GetRecentOpenTasks()
+				issues, err = b.jira.GetRecentOpenTasks()
 				if err != nil {
 					msg.Text = "Error: " + err.Error()
-				}
-				for _, issue := range recentTasks {
-					msg.Text = issue.String()
-					_, err = b.tg.Send(msg)
-					if err != nil {
-						panic(err)
-					}
 				}
 			case "/all":
-				allTasks, err := b.jira.GetAllOpenTasks()
+				issues, err = b.jira.GetAllOpenTasks()
 				if err != nil {
 					msg.Text = "Error: " + err.Error()
-				}
-				for _, issue := range allTasks {
-					msg.Text = issue.String()
-					_, err = b.tg.Send(msg)
-					if err != nil {
-						panic(err)
-					}
 				}
 			default:
 				msg.Text = "I don't know that command"
 				_, err = b.tg.Send(msg)
+				if err != nil {
+					panic(err)
+				}
+			}
+
+			for _, issue := range issues {
+				msg.Text = issue.String()
+				reply := tgbotapi.NewMessage(chatID, issue.String())
+				_, err = b.tg.Send(reply)
 				if err != nil {
 					panic(err)
 				}

@@ -1,6 +1,8 @@
 package schema
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // Issue represents a JIRA issue
 type Issue struct {
@@ -13,16 +15,14 @@ type Issue struct {
 // String returns a string representation of an issue
 func (i Issue) String() string {
 	var s string
-	s = fmt.Sprintln(s, "Key", i.Key)
-	s = fmt.Sprintln(s, "ID", i.ID)
-	s = fmt.Sprintln(s, "Self", i.Self)
-	s = fmt.Sprintln(s, "Summary", i.Fields.Summary)
-	s = fmt.Sprintln(s, "Type", i.Fields.IssueType.Name)
-	s = fmt.Sprintln(s, "Status", i.Fields.Status.Name)
+	s = fmt.Sprintln(s, fmt.Sprintf("https://nwty.atlassian.net/browse/%s", i.Key))
+	s = fmt.Sprintln(s, fmt.Sprintf("*%s*", i.Fields.Summary))
+	s = fmt.Sprintln(s, "Type:", i.Fields.IssueType.Name)
+	s = fmt.Sprintln(s, "Status:", i.Fields.Status.Name)
 	s = fmt.Sprintln(s, "Assignee", i.Fields.Assignee.DisplayName)
-	s = fmt.Sprintln(s, "Reporter", i.Fields.Reporter.DisplayName)
-	s = fmt.Sprintln(s, "Created", i.Fields.Created)
-	s = fmt.Sprintln(s, "Updated", i.Fields.Updated)
+	s = fmt.Sprintln(s, "Reporter:", i.Fields.Reporter.DisplayName)
+	s = fmt.Sprintln(s, "Created:", i.Fields.Created)
+	s = fmt.Sprintln(s, "Updated:", i.Fields.Updated)
 	return s
 }
 
