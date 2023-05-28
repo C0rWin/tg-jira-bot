@@ -1,0 +1,35 @@
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Executables
+*.exe
+*.out
+
+# Go specific
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# GoLand IDE
+.idea/
+
+# Dependency directories (remove the ones that are not used in your project)
+vendor/
+Godeps/
+node_modules/
+
+# Testing
+*.test
+
+# Operating System files
+*.DS_Store
+Thumbs.db
+.env
